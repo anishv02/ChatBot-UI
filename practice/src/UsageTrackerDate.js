@@ -16,6 +16,7 @@ const UsageTracker = () => {
   const [chatHistory, setChatHistory] = useState([]);
   const [userProfile, setUserProfile] = useState({});
   const [selectedUser, setSelectedUser] = useState("user1");
+  const [selectedDate, setSelectedDate] = useState("2024-08-01");
 
   // Dummy data for multiple users
   const usersData = {
@@ -84,15 +85,26 @@ const UsageTracker = () => {
   };
 
   useEffect(() => {
-    // Set initial data based on selected user
+    // Set data based on selected user and date
     const currentUser = usersData[selectedUser];
+    const filteredData = currentUser.usageData.filter(
+      (entry) => entry.day === selectedDate
+    );
     setUserProfile(currentUser.profile);
-    setData(currentUser.usageData);
-    setChatHistory(currentUser.chatHistory);
-  }, [selectedUser]);
+    setData(filteredData);
+    setChatHistory(
+      currentUser.chatHistory.filter((chat) =>
+        chat.time.startsWith(selectedDate)
+      )
+    );
+  }, [selectedUser, selectedDate]);
 
   const handleUserChange = (event) => {
     setSelectedUser(event.target.value);
+  };
+
+  const handleDateChange = (event) => {
+    setSelectedDate(event.target.value);
   };
 
   return (
@@ -103,11 +115,20 @@ const UsageTracker = () => {
           id="userSelect"
           value={selectedUser}
           onChange={handleUserChange}
-          className="styled-dropdown"
         >
           <option value="user1">John Doe</option>
           <option value="user2">Jane Smith</option>
         </select>
+
+        <label htmlFor="dateSelect" style={{ marginLeft: "20px" }}>
+          Select Date:{" "}
+        </label>
+        <input
+          type="date"
+          id="dateSelect"
+          value={selectedDate}
+          onChange={handleDateChange}
+        />
       </div>
 
       <div className="sidebar">

@@ -1,10 +1,33 @@
 .usage-tracker-container {
   display: flex;
+  flex-direction: column;
   max-width: 1200px;
   margin: 40px auto;
   background-color: #f4f6f8;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+  padding: 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.header label {
+  margin-right: 10px;
+  font-size: 16px;
+  color: #333;
+}
+
+.header select {
+  padding: 5px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 .sidebar {
