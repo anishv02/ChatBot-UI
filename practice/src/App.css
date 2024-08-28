@@ -1,38 +1,140 @@
-.App {
-  text-align: center;
+/* EmbeddingDocuments.css */
+
+.grid-container {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  grid-gap: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  height: 100vh;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.header {
+  font-size: 24px;
+  color: #333;
+  text-align: left;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.upload-section {
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.upload-area {
+  width: 100%;
+  max-width: 500px;
+  padding: 30px;
+  border: 2px dashed #ced4da;
+  border-radius: 10px;
+  background-color: #ffffff;
+  text-align: center;
+  position: relative;
+}
+
+.file-input {
+  display: none;
+}
+
+.upload-label {
+  cursor: pointer;
+  display: block;
+}
+
+.upload-icon {
+  font-size: 40px;
+  color: #6c757d;
+  margin-bottom: 10px;
+}
+
+.upload-text {
+  font-size: 16px;
+  color: #6c757d;
+  margin-bottom: 5px;
+}
+
+.upload-subtext {
+  font-size: 14px;
+  color: #adb5bd;
+}
+
+.uploaded-file-info {
+  margin-top: 15px;
+  color: #333;
+  font-size: 14px;
+}
+
+.document-table {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.document-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.document-table th,
+.document-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.document-table th {
+  background-color: #007bff;
   color: white;
+  font-weight: 600;
 }
 
-.App-link {
-  color: #61dafb;
+.document-table tr:hover {
+  background-color: #f1f1f1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.document-table td {
+  color: #333;
+  font-size: 14px;
+}
+
+.document-type-buttons {
+  margin-bottom: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.document-type-button {
+  background-color: #f8f9fa;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  color: #333;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.document-type-button:hover {
+  background-color: #e9ecef;
+  border-color: #007bff;
+}
+
+.document-type-button.selected {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.active-icon {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 14px;
+  color: #fff;
 }
