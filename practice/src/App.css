@@ -1,140 +1,111 @@
-/* EmbeddingDocuments.css */
-
-.grid-container {
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  grid-gap: 20px;
+.embedding-documents-container {
   padding: 20px;
-  background-color: #f8f9fa;
-  height: 100vh;
-  box-sizing: border-box;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .header {
   font-size: 24px;
-  color: #333;
-  text-align: left;
-  font-weight: 600;
-  margin-bottom: 20px;
+  font-weight: bold;
 }
 
-.upload-section {
+.upload-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
-.upload-area {
+.popup-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-top: 0;
+}
+
+.type-dropdown {
   width: 100%;
-  max-width: 500px;
-  padding: 30px;
-  border: 2px dashed #ced4da;
-  border-radius: 10px;
-  background-color: #ffffff;
-  text-align: center;
-  position: relative;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
 }
 
 .file-input {
-  display: none;
-}
-
-.upload-label {
-  cursor: pointer;
-  display: block;
-}
-
-.upload-icon {
-  font-size: 40px;
-  color: #6c757d;
-  margin-bottom: 10px;
-}
-
-.upload-text {
-  font-size: 16px;
-  color: #6c757d;
-  margin-bottom: 5px;
-}
-
-.upload-subtext {
-  font-size: 14px;
-  color: #adb5bd;
+  margin-bottom: 20px;
 }
 
 .uploaded-file-info {
-  margin-top: 15px;
-  color: #333;
+  margin-bottom: 20px;
   font-size: 14px;
+  color: #333;
 }
 
-.document-table {
-  background-color: #ffffff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+.url-input-section {
+  display: flex;
+  align-items: center;
 }
 
-.document-table table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
+.url-input {
+  width: 70%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-right: 10px;
 }
 
-.document-table th,
-.document-table td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
-}
-
-.document-table th {
+.add-url-button {
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
-  font-weight: 600;
-}
-
-.document-table tr:hover {
-  background-color: #f1f1f1;
-}
-
-.document-table td {
-  color: #333;
-  font-size: 14px;
-}
-
-.document-type-buttons {
-  margin-bottom: 20px;
-  display: flex;
-  gap: 10px;
-}
-
-.document-type-button {
-  background-color: #f8f9fa;
-  border: 2px solid #e0e0e0;
+  border: none;
   border-radius: 8px;
-  padding: 10px 20px;
   cursor: pointer;
   font-size: 16px;
-  color: #333;
-  transition: all 0.3s ease;
-  position: relative;
 }
 
-.document-type-button:hover {
-  background-color: #e9ecef;
-  border-color: #007bff;
+.popup-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
-.document-type-button.selected {
+.submit-button,
+.close-button {
+  padding: 10px 20px;
   background-color: #007bff;
   color: white;
-  border-color: #007bff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
 }
 
-.active-icon {
-  position: absolute;
-  right: 10px;
-  top: 10px;
-  font-size: 14px;
-  color: #fff;
+.close-button {
+  background-color: #6c757d;
 }

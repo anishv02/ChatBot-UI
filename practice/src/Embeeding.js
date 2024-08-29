@@ -1,87 +1,122 @@
 import React, { useState } from "react";
 import FancyTable from "./FancyTable";
-import "./App.css";
-
-const initialDocumentData = [
-  { type: "Document Type 1", count: 3000 },
-  { type: "Document Type 2", count: 200 },
-  { type: "Document Type 3", count: 10 },
-  { type: "Document Type 4", count: 5 },
-];
+import "./App.css"; // Custom CSS for styling
 
 const EmbeddingDocuments = () => {
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [uploadedFile, setUploadedFile] = useState(null);
+  const [url, setUrl] = useState("");
   const [selectedType, setSelectedType] = useState("");
-  const [documentData, setDocumentData] = useState(initialDocumentData);
+
+  const handleUploadClick = () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
+    setUploadedFile(null);
+    setUrl("");
+    setSelectedType("");
+  };
 
   const handleFileChange = (event) => {
+    setUploadedFile(event.target.files[0]);
+  };
+
+  const handleUrlChange = (event) => {
+    setUrl(event.target.value);
+  };
+
+  const handleTypeChange = (event) => {
+    setSelectedType(event.target.value);
+  };
+
+  const handleSubmit = () => {
     if (!selectedType) {
-      alert("Please select a document type before uploading.");
+      alert("Please select a document type.");
       return;
     }
 
-    setUploadedFile(event.target.files[0]);
+    if (!uploadedFile && !url) {
+      alert("Please upload a file or enter a URL.");
+      return;
+    }
 
-    // Update the count for the selected document type
-    setDocumentData((prevData) =>
-      prevData.map((doc) =>
-        doc.type === selectedType ? { ...doc, count: doc.count + 1 } : doc
-      )
+    // Handle the file and URL submission logic here
+    alert(
+      `Uploaded ${
+        uploadedFile ? uploadedFile.name : "No file"
+      } and added URL ${url} as ${selectedType}`
     );
-  };
 
-  const handleTypeSelect = (type) => {
-    setSelectedType(type);
+    // Close the popup after submission
+    handleClosePopup();
   };
 
   return (
-    <div className="grid-container">
-      <h1 className="header">Embedding Documents</h1>
-
-      <div className="upload-section">
-        <div className="upload-area">
-          {/* Document Type Selection with Buttons */}
-          <div className="document-type-buttons">
-            <p>Select Document Type:</p>
-            {documentData.map((doc, index) => (
-              <button
-                key={index}
-                className={`document-type-button ${
-                  selectedType === doc.type ? "selected" : ""
-                }`}
-                onClick={() => handleTypeSelect(doc.type)}
-              >
-                {doc.type}
-                {selectedType === doc.type && (
-                  <span className="active-icon">✓</span>
-                )}
-              </button>
-            ))}
-          </div>
-
-          {/* File Upload Section */}
-          <input
-            type="file"
-            id="fileInput"
-            className="file-input"
-            onChange={handleFileChange}
-            disabled={!selectedType}
-          />
-          <label htmlFor="fileInput" className="upload-label">
-            <div className="upload-icon">+</div>
-            <p className="upload-text">Drag & drop or click to choose files</p>
-            <p className="upload-subtext">Max file size: 10 MB</p>
-          </label>
-          {uploadedFile && (
-            <div className="uploaded-file-info">
-              <p>{uploadedFile.name}</p>
-            </div>
-          )}
-        </div>
+    <div className="embedding-documents-container">
+      <div className="header-container">
+        <h1 className="header">Embedding Documents</h1>
+        <button className="upload-button" onClick={handleUploadClick}>
+          Upload +
+        </button>
       </div>
 
-      {/* Fancy Table to Display Document Counts */}
-      <FancyTable data={documentData} />
+      <FancyTable />
+
+      {isPopupOpen && (
+        <div className="popup-overlay">
+          <div className="popup-content">
+            <h2>Upload Document</h2>
+            <select
+              value={selectedType}
+              onChange={handleTypeChange}
+              className="type-dropdown"
+            >
+              <option value="" disabled>
+                Select Document Type
+              </option>
+              <option value="Document Type 1">Document Type 1</option>
+              <option value="Document Type 2">Document Type 2</option>
+              <option value="Document Type 3">Document Type 3</option>
+              <option value="Document Type 4">Document Type 4</option>
+            </select>
+
+            <input
+              type="file"
+              className="file-input"
+              onChange={handleFileChange}
+            />
+            {uploadedFile && (
+              <div className="uploaded-file-info">
+                <p>{uploadedFile.name}</p>
+              </div>
+            )}
+
+            <div className="url-input-section">
+              <input
+                type="text"
+                placeholder="Enter URL"
+                value={url}
+                onChange={handleUrlChange}
+                className="url-input"
+              />
+              <button className="add-url-button" onClick={handleSubmit}>
+                Add URL
+              </button>
+            </div>
+
+            <div className="popup-actions">
+              <button className="submit-button" onClick={handleSubmit}>
+                Submit
+              </button>
+              <button className="close-button" onClick={handleClosePopup}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
