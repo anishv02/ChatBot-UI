@@ -7,6 +7,7 @@ const EmbeddingDocuments = () => {
   const [uploadedFile, setUploadedFile] = useState(null);
   const [url, setUrl] = useState("");
   const [selectedType, setSelectedType] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   const handleUploadClick = () => {
     setIsPopupOpen(true);
@@ -17,10 +18,12 @@ const EmbeddingDocuments = () => {
     setUploadedFile(null);
     setUrl("");
     setSelectedType("");
+    setUploadProgress(0);
   };
 
   const handleFileChange = (event) => {
     setUploadedFile(event.target.files[0]);
+    setUploadProgress(44); // Mock progress for demonstration
   };
 
   const handleUrlChange = (event) => {
@@ -42,7 +45,9 @@ const EmbeddingDocuments = () => {
       return;
     }
 
-    // Handle the file and URL submission logic here
+    // Simulate a file upload or URL submission process
+    setUploadProgress(100); // Mock completion
+
     alert(
       `Uploaded ${
         uploadedFile ? uploadedFile.name : "No file"
@@ -66,46 +71,62 @@ const EmbeddingDocuments = () => {
 
       {isPopupOpen && (
         <div className="popup-overlay">
-          <div className="popup-content">
-            <h2>Upload Document</h2>
-            <select
-              value={selectedType}
-              onChange={handleTypeChange}
-              className="type-dropdown"
-            >
-              <option value="" disabled>
-                Select Document Type
-              </option>
-              <option value="Document Type 1">Document Type 1</option>
-              <option value="Document Type 2">Document Type 2</option>
-              <option value="Document Type 3">Document Type 3</option>
-              <option value="Document Type 4">Document Type 4</option>
-            </select>
-
-            <input
-              type="file"
-              className="file-input"
-              onChange={handleFileChange}
-            />
-            {uploadedFile && (
-              <div className="uploaded-file-info">
-                <p>{uploadedFile.name}</p>
-              </div>
-            )}
-
-            <div className="url-input-section">
-              <input
-                type="text"
-                placeholder="Enter URL"
-                value={url}
-                onChange={handleUrlChange}
-                className="url-input"
-              />
-              <button className="add-url-button" onClick={handleSubmit}>
-                Add URL
+          <div className="popup-content animate__animated animate__fadeInUp">
+            <div className="popup-header">
+              <h2 className="popup-title">Upload Document</h2>
+              <button className="close-popup-btn" onClick={handleClosePopup}>
+                &times;
               </button>
             </div>
+            <div className="popup-body">
+              <select
+                value={selectedType}
+                onChange={handleTypeChange}
+                className="type-dropdown"
+              >
+                <option value="" disabled>
+                  Select Document Type
+                </option>
+                <option value="Document Type 1">Document Type 1</option>
+                <option value="Document Type 2">Document Type 2</option>
+                <option value="Document Type 3">Document Type 3</option>
+                <option value="Document Type 4">Document Type 4</option>
+              </select>
 
+              <div className="file-upload-section">
+                <input
+                  type="file"
+                  className="file-input"
+                  onChange={handleFileChange}
+                />
+                {uploadedFile && (
+                  <div className="uploaded-file-info">
+                    <p>{uploadedFile.name}</p>
+                    <div className="progress-bar">
+                      <div
+                        className="progress"
+                        style={{ width: `${uploadProgress}%` }}
+                      >
+                        {uploadProgress}%
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <div className="url-input-section">
+                <input
+                  type="text"
+                  placeholder="Enter URL"
+                  value={url}
+                  onChange={handleUrlChange}
+                  className="url-input"
+                />
+                <button className="add-url-button" onClick={handleSubmit}>
+                  Add URL
+                </button>
+              </div>
+            </div>
             <div className="popup-actions">
               <button className="submit-button" onClick={handleSubmit}>
                 Submit

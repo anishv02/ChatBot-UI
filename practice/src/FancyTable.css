@@ -24,17 +24,24 @@
 }
 
 .expandable-row {
-  display: flex;
-  justify-content: space-between;
   cursor: pointer;
+  width: 20px;
 }
 
 .expand-icon {
-  margin-left: auto;
+  display: inline-block;
+  margin-right: 10px;
 }
 
 .expanded-content {
   padding: 10px;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
+}
+
+.edit-icon {
+  cursor: pointer;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
 }
