@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useDropzone } from "react-dropzone";
 import FancyTable from "./FancyTable";
 import "./App.css"; // Custom CSS for styling
 
@@ -21,10 +22,12 @@ const EmbeddingDocuments = () => {
     setUploadProgress(0);
   };
 
-  const handleFileChange = (event) => {
-    setUploadedFile(event.target.files[0]);
+  const onDrop = (acceptedFiles) => {
+    setUploadedFile(acceptedFiles[0]);
     setUploadProgress(44); // Mock progress for demonstration
   };
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const handleUrlChange = (event) => {
     setUrl(event.target.value);
@@ -93,13 +96,12 @@ const EmbeddingDocuments = () => {
                 <option value="Document Type 4">Document Type 4</option>
               </select>
 
-              <div className="file-upload-section">
-                <input
-                  type="file"
-                  className="file-input"
-                  onChange={handleFileChange}
-                />
-                {uploadedFile && (
+              <div
+                {...getRootProps()}
+                className={`file-upload-section ${isDragActive ? "drag-over" : ""}`}
+              >
+                <input {...getInputProps()} className="file-input" />
+                {uploadedFile ? (
                   <div className="uploaded-file-info">
                     <p>{uploadedFile.name}</p>
                     <div className="progress-bar">
@@ -111,6 +113,8 @@ const EmbeddingDocuments = () => {
                       </div>
                     </div>
                   </div>
+                ) : (
+                  <p>Drag and drop a file here, or click to select one.</p>
                 )}
               </div>
 
