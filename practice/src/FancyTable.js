@@ -1,47 +1,37 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./FancyTable.css"; // Import custom CSS
 
 const FancyTable = () => {
   const [expandedRows, setExpandedRows] = useState([]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const data = [
-    {
-      source: "embedded_Details",
-      type: "Type 1",
-      status: "Active",
-      subject: "Subject 1",
-      content: "Content 1",
-      content_type: "Text",
-      insert_time: "2024-08-28 10:00",
-      inserted_by: "User A",
-      last_updated_time: "2024-08-28 11:00",
-      last_updated_by: "User A",
-    },
-    {
-      source: "Data Source 1",
-      type: "Type 1",
-      status: "Active",
-      subject: "Subject 1",
-      content: "Content 1",
-      content_type: "Text",
-      insert_time: "2024-08-28 10:00",
-      inserted_by: "User A",
-      last_updated_time: "2024-08-28 11:00",
-      last_updated_by: "User A",
-    },
-    {
-      source: "Data Source 2",
-      type: "Type 2",
-      status: "Inactive",
-      subject: "Subject 2",
-      content: "Content 2",
-      content_type: "Image",
-      insert_time: "2024-08-28 10:30",
-      inserted_by: "User B",
-      last_updated_time: "2024-08-28 11:30",
-      last_updated_by: "User B",
-    },
-  ];
+  // Access your token from environment variables
+  const token = process.env.REACT_APP_API_TOKEN;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://cpschatuisvc.webfarm-dev.ms.com/api/DataEmbedding/getalldataembeddings",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setData(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [token]);
 
   const toggleExpand = (index) => {
     if (expandedRows.includes(index)) {
@@ -50,6 +40,14 @@ const FancyTable = () => {
       setExpandedRows([...expandedRows, index]);
     }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error.response?.data?.message || error.message}</div>;
+  }
 
   return (
     <div className="table-container">
