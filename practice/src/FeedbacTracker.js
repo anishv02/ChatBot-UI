@@ -39,21 +39,30 @@ const FeedbackSection = () => {
         Hear what our users have to say about their experience with our chatbot.
       </p>
 
-      <div className="feedback-rows">
-        {feedbackData.map((feedback, index) => (
-          <div
-            key={index}
-            className="feedback-row"
-            onClick={() => handleRowClick(feedback)}
-          >
-            <span className="feedback-name">{feedback.name}</span>
-            <span className="feedback-role">{feedback.role}</span>
-            <span className="feedback-snippet">
-              {feedback.feedback.slice(0, 50)}...
-            </span>
-            <span className="feedback-date">{feedback.date}</span>
-          </div>
-        ))}
+      <div className="feedback-table">
+        <div className="feedback-header">
+          <span className="feedback-header-item">Name</span>
+          <span className="feedback-header-item">Role</span>
+          <span className="feedback-header-item">Feedback</span>
+          <span className="feedback-header-item">Date</span>
+        </div>
+
+        <div className="feedback-rows">
+          {feedbackData.map((feedback, index) => (
+            <div
+              key={index}
+              className="feedback-row"
+              onClick={() => handleRowClick(feedback)}
+            >
+              <span className="feedback-name">{feedback.name}</span>
+              <span className="feedback-role">{feedback.role}</span>
+              <span className="feedback-snippet">
+                {feedback.feedback.slice(0, 50)}...
+              </span>
+              <span className="feedback-date">{feedback.date}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       {selectedFeedback && (
