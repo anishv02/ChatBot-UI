@@ -8,20 +8,10 @@ const FancyTable = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Access your token from environment variables
-  const token = process.env.REACT_APP_API_TOKEN;
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://cpschatuisvc.webfarm-dev.ms.com/api/DataEmbedding/getalldataembeddings",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await axios.get("https://cpschatuisvc.webfarm-dev.ms.com/api/DataEmbedding/getalldataembeddings");
         setData(response.data);
         setLoading(false);
       } catch (err) {
@@ -31,7 +21,7 @@ const FancyTable = () => {
     };
 
     fetchData();
-  }, [token]);
+  }, []);
 
   const toggleExpand = (index) => {
     if (expandedRows.includes(index)) {
@@ -46,7 +36,7 @@ const FancyTable = () => {
   }
 
   if (error) {
-    return <div>Error: {error.response?.data?.message || error.message}</div>;
+    return <div>Error: {error.message}</div>;
   }
 
   return (
@@ -102,8 +92,7 @@ const FancyTable = () => {
                       <div className="expanded-content">
                         {/* Your expandable content here */}
                         <p>
-                          This is the additional content that appears when
-                          expanded.
+                          This is the additional content that appears when expanded.
                         </p>
                       </div>
                     </td>
