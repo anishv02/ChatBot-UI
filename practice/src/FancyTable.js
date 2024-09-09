@@ -1,27 +1,52 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import "./FancyTable.css"; // Import custom CSS
 
 const FancyTable = () => {
   const [expandedRows, setExpandedRows] = useState([]);
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get("https://cpschatuisvc.webfarm-dev.ms.com/api/DataEmbedding/getalldataembeddings");
-        setData(response.data);
-        setLoading(false);
-      } catch (err) {
-        setError(err);
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
+  // Dummy data with subcategories in 'parameters'
+  const data = [
+    {
+      source: "Document A",
+      type: "PDF",
+      subject: "Finance Report",
+      active: "Yes",
+      parameters: {
+        name: "John Doe",
+        address: "123 Finance St",
+        pin: "10001",
+        postal: "NY"
+      },
+      content: "The financial report shows an upward trend in Q1 revenue..."
+    },
+    {
+      source: "Document B",
+      type: "Word",
+      subject: "Project Plan",
+      active: "No",
+      parameters: {
+        name: "Jane Smith",
+        address: "456 Project Blvd",
+        pin: "20002",
+        postal: "CA"
+      },
+      content: "This document outlines the project plan and expected milestones..."
+    },
+    {
+      source: "Document C",
+      type: "Excel",
+      subject: "Sales Data",
+      active: "Yes",
+      parameters: {
+        name: "Alice Johnson",
+        address: "789 Sales Ave",
+        pin: "30003",
+        postal: "TX"
+      },
+      content: "Sales data for the first half of the year by region..."
+    },
+    // Add more dummy data as needed
+  ];
 
   const toggleExpand = (index) => {
     if (expandedRows.includes(index)) {
@@ -31,13 +56,15 @@ const FancyTable = () => {
     }
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  const truncateText = (text, maxLength) => {
+    if (!text) {
+      return ""; // or return 'N/A'
+    }
+    if (text.length > maxLength) {
+      return text.substring(0, maxLength) + "...";
+    }
+    return text;
+  };
 
   return (
     <div className="table-container">
@@ -46,24 +73,34 @@ const FancyTable = () => {
         <table className="fancy-table">
           <thead>
             <tr>
-              <th></th> {/* Empty column for the expand icon */}
               <th>Source</th>
               <th>Type</th>
-              <th>Status</th>
               <th>Subject</th>
+              <th>Active</th>
+              <th>Parameters</th>
               <th>Content</th>
-              <th>Content Type</th>
-              <th>Insert Time</th>
-              <th>Inserted By</th>
-              <th>Last Updated Time</th>
-              <th>Last Updated By</th>
-              <th></th> {/* Empty column for the edit icon */}
             </tr>
           </thead>
           <tbody>
             {data.map((row, index) => (
               <React.Fragment key={index}>
                 <tr>
+                  <td className="tooltip-custom">
+                    {truncateText(row.source, 20)}
+                    <span className="tooltip-text">{row.source}</span>
+                  </td>
+                  <td className="tooltip-custom">
+                    {truncateText(row.type, 20)}
+                    <span className="tooltip-text">{row.type}</span>
+                  </td>
+                  <td className="tooltip-custom">
+                    {truncateText(row.subject, 20)}
+                    <span className="tooltip-text">{row.subject}</span>
+                  </td>
+                  <td className="tooltip-custom">
+                    {truncateText(row.active, 20)}
+                    <span className="tooltip-text">{row.active}</span>
+                  </td>
                   <td
                     onClick={() => toggleExpand(index)}
                     className="expandable-row"
@@ -71,33 +108,38 @@ const FancyTable = () => {
                     <span className="expand-icon">
                       {expandedRows.includes(index) ? "▼" : "▶"}
                     </span>
+                    {truncateText(
+                      `${row.parameters.name}, ${row.parameters.address}`,
+                      20
+                    )}
+                    {expandedRows.includes(index) && (
+                      <div className="expanded-content">
+                        <table className="subtable">
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Address</th>
+                              <th>Pin</th>
+                              <th>Postal</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td>{row.parameters.name}</td>
+                              <td>{row.parameters.address}</td>
+                              <td>{row.parameters.pin}</td>
+                              <td>{row.parameters.postal}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
                   </td>
-                  <td>{row.source}</td>
-                  <td>{row.type}</td>
-                  <td>{row.status}</td>
-                  <td>{row.subject}</td>
-                  <td>{row.content}</td>
-                  <td>{row.content_type}</td>
-                  <td>{row.insert_time}</td>
-                  <td>{row.inserted_by}</td>
-                  <td>{row.last_updated_time}</td>
-                  <td>{row.last_updated_by}</td>
-                  <td>
-                    <span className="edit-icon">✏️</span>
+                  <td className="tooltip-custom">
+                    {truncateText(row.content, 20)}
+                    <span className="tooltip-text">{row.content}</span>
                   </td>
                 </tr>
-                {expandedRows.includes(index) && (
-                  <tr>
-                    <td colSpan="12">
-                      <div className="expanded-content">
-                        {/* Your expandable content here */}
-                        <p>
-                          This is the additional content that appears when expanded.
-                        </p>
-                      </div>
-                    </td>
-                  </tr>
-                )}
               </React.Fragment>
             ))}
           </tbody>
